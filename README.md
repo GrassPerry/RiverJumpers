@@ -1,8 +1,3 @@
-# River Jumpers
- 
-![Class Diagram]()
-
-
 # [River Jumpers]
 
 **Classification:** [Simple Game]
