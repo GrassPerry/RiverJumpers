@@ -1,12 +1,18 @@
 Player p1;
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 boolean play;
+int laneHeight;
+int [] laneY = new int[3];
 
 
 void setup() {
   size(500, 500);
   p1 = new Player();
   play = false;
+  laneHeight = height/3;
+  laneY[0] = laneHeight/2;
+  laneY[1]=laneHeight + laneHeight/2;
+  laneY[2]=2 *laneHeight + laneHeight/2;
 }
 
 void draw() {
@@ -33,17 +39,18 @@ void draw() {
       }
     }
     if (frameCount %60 ==0) {
-      int lane = int(random (3, 7));
-      enemies.add(new Enemy());
+      int randomLaneIndex = int(random(0,3));
+      int enemyY = laneY[randomLaneIndex];
+      enemies.add(new Enemy(enemyY));
     }
     p1.display();
     if (mousePressed) {
       if (play == true) {
         if (key == CODED) {
           if (keyCode == UP) {
-            p1.moveUp(1);
-          } else if (keyCode == DOWN) {
             p1.moveUp(-1);
+          } else if (keyCode == DOWN) {
+            p1.moveUp(1);
           }
         }
       }
@@ -64,4 +71,3 @@ void gameOver() {
   text("Good Try", width/2, 400);
   noLoop();
 }
-
