@@ -3,9 +3,9 @@ class Enemy {
   int x, y, diam, speed, c1;
 
   //con
-  Enemy() {
+  Enemy(int laneY) {
     x= 12;
-    y= 60;
+    y= laneY;
     diam = int(random(10, 100));
     speed = int(random(1, 6));
     c1= color(0);
@@ -18,4 +18,3 @@ class Enemy {
     y =y+speed;
   }
 }
-
