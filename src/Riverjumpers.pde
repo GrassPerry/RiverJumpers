@@ -39,24 +39,33 @@ void draw() {
       }
     }
     if (frameCount %60 ==0) {
-      int randomLaneIndex = int(random(0,3));
+      int randomLaneIndex = int(random(0, 3));
       int enemyY = laneY[randomLaneIndex];
       enemies.add(new Enemy(enemyY));
     }
     p1.display();
     if (mousePressed) {
-      if (play == true) {
-        if (key == CODED) {
-          if (keyCode == UP) {
-            p1.moveUp(-1);
-          } else if (keyCode == DOWN) {
-            p1.moveUp(1);
-          }
-        }
-      }
     }
   }
 }
+
+void mousePressed() {
+  if (play == false) {
+    play = true;
+    loop();
+  }
+}
+
+void keyPressed() {
+  if(play==true) {
+    if (keyCode== UP) {
+      p1.moveLane(-1);
+    } else if(keyCode==DOWN) {
+      p1.moveLane(1);
+    }
+  }
+}
+
 void startScreen() {
   background(0);
   textAlign(CENTER);
