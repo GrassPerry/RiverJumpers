@@ -4,7 +4,7 @@ class Enemy {
 
   //con
   Enemy(int laneY) {
-    x= 12;
+    x= 250;
     y= laneY;
     diam = int(random(10, 100));
     speed = int(random(1, 6));
@@ -12,9 +12,9 @@ class Enemy {
   }
   void display() {
     ellipseMode(CENTER);
-    ellipse(50, 50, diam, diam);
+    ellipse(x, y, diam, diam);
   }
   void move() {
-    y =y+speed;
+    x = x+speed;
   }
 }
