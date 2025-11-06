@@ -9,19 +9,21 @@ void setup() {
   size(500, 500);
   p1 = new Player();
   play = false;
-  laneHeight = height/3;
-  laneY[0] = laneHeight/2;
-  laneY[1]=laneHeight + laneHeight/2;
-  laneY[2]=2 *laneHeight + laneHeight/2;
+  laneHeight = height / 3;
+  laneY[0] = laneHeight / 2;
+  laneY[1] = laneHeight + laneHeight / 2;
+  laneY[2] = 2 * laneHeight + laneHeight / 2;
 }
 
 void draw() {
   background(255);
+  
   if (play == false) {
     startScreen();
-  } else if (p1.lives<= 0) {
+  } else if (p1.lives <= 0) {
     gameOver();
   } else {
+
     for (int i = enemies.size() - 1; i >= 0; i--) {
       Enemy enemy = enemies.get(i);
       enemy.display();
@@ -30,22 +32,23 @@ void draw() {
       if (p1.intersect(enemy)) {
         enemies.remove(i);
         p1.lives -= 1;
-
         break;
       }
+
 
       if (enemy.x > width + 50 || enemy.x < -50) {
         enemies.remove(i);
       }
     }
-    if (frameCount %60 ==0) {
+    
+
+    if (frameCount % 60 == 0) {
       int randomLaneIndex = int(random(0, 3));
       int enemyY = laneY[randomLaneIndex];
       enemies.add(new Enemy(enemyY));
     }
+    
     p1.display();
-    if (mousePressed) {
-    }
   }
 }
 
@@ -57,17 +60,20 @@ void mousePressed() {
 }
 
 void keyPressed() {
-  if(play==true) {
-    if (keyCode== UP) {
-      p1.moveLane(-1);
-    } else if(keyCode==DOWN) {
+  if (play == true) {
+    if (keyCode == UP) {
+      p1.moveLane(-1); 
+    } 
+    else if (keyCode == DOWN) {
       p1.moveLane(1);
     }
   }
 }
 
+
 void startScreen() {
   background(0);
+  fill(255);
   textAlign(CENTER);
   textSize(40);
   text("Click Mouse To Start!!", 250, 400);
@@ -75,6 +81,7 @@ void startScreen() {
 
 void gameOver() {
   background(0);
+  fill(255);
   textAlign(CENTER);
   textSize(33);
   text("Good Try", width/2, 400);
