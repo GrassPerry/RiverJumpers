@@ -1,20 +1,23 @@
 class Enemy {
-  //mv
-  int x, y, diam, speed, c1;
+  int x, y, diam, speed;
+  color enemyColor;
 
-  //con
+  // Constructor
   Enemy(int laneY) {
-    x= 250;
-    y= laneY;
+    x = 12;
+    y = laneY;
     diam = int(random(10, 100));
     speed = int(random(1, 6));
-    c1= color(0);
+    enemyColor = color(0);
   }
+  
   void display() {
     ellipseMode(CENTER);
+    fill(enemyColor);
     ellipse(x, y, diam, diam);
   }
+  
   void move() {
-    x = x+speed;
+    x = x + speed;
   }
 }
