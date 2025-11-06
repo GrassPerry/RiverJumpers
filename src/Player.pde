@@ -14,12 +14,9 @@ class Player {
     c1= color(200,0,0);
   }
   
-  void moveUp(int y) {
-    y = y-speed;
-  }
   void display() {
     rectMode(CENTER);
-    rect(50,50,x,y);
+    rect(x,y,w,h);
   }
   
   void moveLane(int direction) {
@@ -34,7 +31,7 @@ class Player {
   
   boolean intersect(Enemy e) {
     float d = dist(x, y, e.x, e.y);
-    if(d<50) {
+    if(d<e.diam/2) {
       return true;
     } else {
       return false;
