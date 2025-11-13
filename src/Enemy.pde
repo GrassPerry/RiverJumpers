@@ -3,21 +3,22 @@ class Enemy {
   color enemyColor;
 
   // Constructor
-  Enemy(int laneY) {
-    x = 12;
-    y = laneY;
-    diam = int(random(10, 100));
-    speed = int(random(1, 6));
+  Enemy() {
+    // Start off-screen right and move left (only one direction for simplicity)
+    x = width + 50; 
+    diam = int(random(20, 70)); // Adjusted size range
+    speed = int(random(3, 8)); // Adjusted speed range
     enemyColor = color(0);
   }
-  
+
   void display() {
     ellipseMode(CENTER);
     fill(enemyColor);
     ellipse(x, y, diam, diam);
   }
-  
+
   void move() {
-    x = x + speed;
+    // Move to the left
+    x = x - speed; 
   }
 }
