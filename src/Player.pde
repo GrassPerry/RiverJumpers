@@ -1,48 +1,32 @@
 class Player {
-  // Member Variables
-  int x, y, w, h, lives, speed;
-  int currentLane;
-  color playerColor;
-  
-  // Constructor (Starts player at the bottom lane)
+  // ... (x, w, h, lives, playerColor remain the same) ...
+  int x, w,h,lives,playerColor;
+  final int y = 500; // Player is FIXED near the bottom of the screen (e.g., y=500)
+  // ... (rest of variables) ...
+
   Player() {
-    currentLane = 2; // Start at index 2 (Bottom Lane)
-    x = 250;
-    y = laneY[currentLane];
-    w = 12; // Made a little wider
-    h = 24; // Made a little taller
+    x = width / 2;
+    // y is FIXED at 500 (or height - laneHeight)
+    w = 20; 
+    h = 20; 
     lives = 3;
-    speed = 5;
     playerColor = color(200, 0, 0);
   }
-  
 
-  void display() {
-    rectMode(CENTER);
-    fill(playerColor);
-    rect(x, y, w, h);
-  }
-  
   void moveLane(int direction) {
-
-    if (direction == -1 && currentLane > 0) {
-      currentLane--; 
-    } 
-    else if (direction == 1 && currentLane < 2) {
-      currentLane++;
+    // Moving UP (direction = -1) means the player successfully jumped forward
+    if (direction == -1) { 
+      // This is the core change: trigger the world to scroll down
+      scrollOffset = SCROLL_STEP;
     }
-
-    y = laneY[currentLane];
+    // Lateral movement is not typically used in Frogger/Crossy Road
+    // x += (direction * speed); 
   }
   
-  boolean intersect(Enemy e) {
- 
-    float d = dist(x, y, e.x, e.y);
-
-    if (d < e.diam / 2) {
-      return true;
-    } else {
-      return false;
-    }
+  // NOTE: The intersect function must be moved to the Lane class!
+  // Collision will be: Lane.checkCollision(Player p1);
+  void display(){
+    rect(x,y,w,h);
   }
 }
+
