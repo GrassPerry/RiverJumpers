@@ -29,4 +29,3 @@ class Player {
     rect(x,y,w,h);
   }
 }
-
