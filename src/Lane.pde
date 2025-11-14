@@ -18,12 +18,10 @@ class Lane {
       // Generate logs (Trunks)
       generateObstacles(7, FIXED_SPEED, TRUNK_WIDTH, false); // 7 logs, fixed speed, fixed width
     }
-
   }
 
   void generateObstacles(int count, float minSpeed, float maxSize, boolean isEnemy) {
     if (isEnemy) {
-
     } else {
 
       float totalSpacing = MINIMUM_ITEM_SIZE * count;
@@ -60,46 +58,18 @@ class Lane {
     else fill(0, 150, 0); // Grass/Start
 
     rectMode(CENTER);
-    rect(width / 2, y, width, laneHeight);ßß
+    rect(width / 2, y, width, laneHeight);
   }
-
-  class Trunk {
-    color c;
-    float x;
-    float y;
-    final float HEIGHT = 30;
-    float speed;
-    boolean moveRight;
-
-
-    Trunk(float x, float y, boolean direction, float speed) {
-      this.x = x;
-      this.y = y;
-      this.moveRight = direction;
-      this.c = color(98, 44, 24);
-      this.speed = speed;
-    }
-
-    void display() {
-      fill(c);
-
-      rect(x, y, TRUNK_WIDTH, HEIGHT, 3);
-    }
-
-    void move() {
-      if (moveRight) {
-
-        x += speed;
-        if (x > width + TRUNK_WIDTH) {
-          x = -(MINIMUM_ITEM_SIZE * 3);
-        }
-      } else {
-        x -= speed;
-
-        if (x < -TRUNK_WIDTH) {
-          x = width + (MINIMUM_ITEM_SIZE * 3);
-        }
+  void updateAndDisplayObstacles(float scrollAmt) {
+    // Apply scrolling to all obstacles first
+    for (Object obstacle : obstacles) {
+      if (obstacle instanceof Trunk) {
+        Trunk log = (Trunk) obstacle;
+        log.y += scrollAmt; // Apply the scroll to the log's Y
+        log.move(); // Move the log's X
+        log.display();
       }
+      // Add Car logic here when implemented
     }
   }
 }
