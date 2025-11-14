@@ -60,11 +60,7 @@ class Lane {
     else fill(0, 150, 0); // Grass/Start
 
     rectMode(CENTER);
-    rect(width / 2, y, width, laneHeight);
-    for (Object obj : obstacles) {
-      if (obj instanceof Enemy) ((Enemy)obj).display();
-      if (obj instanceof Trunk) ((Trunk)obj).display();
-    }
+    rect(width / 2, y, width, laneHeight);ßß
   }
 
   class Trunk {
