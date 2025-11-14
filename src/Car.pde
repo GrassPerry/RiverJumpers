@@ -14,12 +14,6 @@ final float space_between_groups_cars = 200;
 Car n0_name, y3ah_name;
 // Mantendo 100 carros, que serão distribuídos pelas 8 raias
 
-Tronco[] Logs = new Tronco[15];
-final float[] RAIA_Y_log = {120, 145, 230, 255 , 450, 475};
-final float space_logs = 80;
-final float width_log = 85;
-final float size_log = width_log + space_logs;
-final float speed = 5;
 
 
 
@@ -76,6 +70,3 @@ class Car {
     }
   }
 }
-
-
-
