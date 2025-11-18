@@ -1,26 +1,29 @@
+// =====================================
+// RIVER JUMPERS — MAIN FILE
+// =====================================
+
+
 Player p1;
 ArrayList<Lane> gameLanes = new ArrayList<Lane>();
-boolean play;
-int laneHeight = 50;
-int lanesToGenerate = 15;
 
-float scrollOffset = 0;
-final float SCROLL_STEP = laneHeight;
+
+boolean play = false;
+int laneHeight = 50;
+int lanesToGenerate = 12;
+
+
+final float width_log = 55;
 final float MINIMUM_SPACE = 50;
-final float TRUNK_WIDTH = 35;
-final float MINIMUM_ITEM_SIZE = TRUNK_WIDTH + MINIMUM_SPACE;
-final float FIXED_SPEED = 1.5;
+final float size_log = widtah_log + MINIMUM_SPACE;
+final float speed_car = 3;  
 
 
 void setup() {
   size(640, 600);
   p1 = new Player();
-  play = false;
 
-  // KEEP THIS LANE GENERATION LOOP:
   for (int i = 0; i < lanesToGenerate; i++) {
     float yPos = height - (i * laneHeight) - (laneHeight / 2);
-
     if (i == 0) {
       gameLanes.add(new Lane(yPos, "START"));
     } else {
@@ -28,75 +31,69 @@ void setup() {
       gameLanes.add(new Lane(yPos, type));
     }
   }
+  p1 = new Player();
+
+  play = false;
 }
+
+    
+ 
+
+
 
 void draw() {
   background(100, 150, 255);
 
-  if (play == false) {
+  if (!play) {
     startScreen();
-  } else if (p1.lives <= 0) {
+    return;
+  }
+
+  if (p1.lives <= 0) {
     gameOver();
-  } else {
-    for (Lane lane : gameLanes) {
-      lane.y += scrollOffset;
-    }
-
-    if (scrollOffset > 0) {
-      scrollOffset -= 5;
-      if (scrollOffset < 0) {
-        scrollOffset = 0;
-      }
-    }
-
-    if (gameLanes.size() > 0 && gameLanes.get(gameLanes.size() - 1).y > -laneHeight) {
-      generateNewLane();
-    }
-
-    for (int i = gameLanes.size() - 1; i >= 0; i--) {
-      Lane lane = gameLanes.get(i);
-      lane.display();
-    }
-
-    p1.display();
+    return;
   }
+
+  for (Lane lane : gameLanes) lane.update();
+
+  for (Lane lane : gameLanes) lane.display();
+
+  p1.display();
 }
 
-void generateNewLane() {
-  float topY = gameLanes.get(gameLanes.size() - 1).y - laneHeight;
-  String type = (gameLanes.size() % 2 == 0) ? "ROAD" : "RIVER";
-  gameLanes.add(new Lane(topY, type));
-}
-
-void mousePressed() {
-  if (play == false) {
-    play = true;
-    loop();
-  }
-}
 
 void keyPressed() {
-  if (play == true) {
-    if (keyCode == UP) {
-      p1.moveLane(-1);
-    }
-  }
+  if (!play) return;
+
+  if (keyCode == UP) p1.moveLane(-1);
+  if (keyCode == DOWN) p1.moveLane(1);
+  if (keyCode == LEFT) p1.moveLeft();
+  if (keyCode == RIGHT) p1.moveRight();
 }
+
+
+void mousePressed() {
+  play = true;
+}
+
+
 void startScreen() {
   background(0);
   fill(255);
   textAlign(CENTER);
   textSize(40);
-  text("Click Mouse To Start!!", 250, 400);
+  text("Click to start!", width/2, height/2);
 }
+
 
 void gameOver() {
   background(0);
   fill(255);
   textAlign(CENTER);
-  textSize(33);
-  text("Good Try", width / 2, 400);
+  textSize(40);
+  text("GAME OVER", width/2, height/2);
   textSize(20);
-  text("Score: " + (frameCount - 1), width / 2, 450); // Simple score
+  text("Click to restart", width/2, height/2 + 40);
+
   noLoop();
 }
