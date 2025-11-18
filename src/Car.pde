@@ -1,72 +1,39 @@
-// Arthur Leite | 18 Sept 2025 | Making Cars
-
-// ===================================
-// NOVAS CONSTANTES GLOBAIS PARA RAIAS
-// ===================================
-Car[] cars = new Car[25];
-final float[] RAIA_Y_car = {55, 80, 175, 200 , 400, 500}; // Posições Y das faixas
-final float CAR_WIDTH = 35;
-final float SPACE_CARS = 45;
-final float SIZE_CAR_WITH_SPACE = CAR_WIDTH + SPACE_CARS;
-final float speed_car = 3;
-final float space_between_groups_cars = 200;
-
-Car n0_name, y3ah_name;
-// Mantendo 100 carros, que serão distribuídos pelas 8 raias
-
-
-
-
-
 class Car {
-  // Member Variable
   color c;
   float x;
   float y;
   float speed;
-  boolean r; // Direção: true = direita, false = esquerda
+  boolean r;  
 
-  // ===================================
-  // CONSTRUTOR MODIFICADO PARA RECEBER DIREÇÃO
-  // ===================================
   Car(float x, float y, boolean direction) {
-    c = color(12, random(255), random(255));
+    c = color(random(255), random(255), random(255));
     this.x = x;
     this.y = y;
     speed = speed_car;
-    this.r = direction; // Define a direção do carro com base na raia
+    r = direction;
   }
 
-  // Member Methods
   void display() {
-    // A lógica 'if (r == true)' e 'else' na função display era idêntica,
-    // simplificando o código para apenas uma vez:
     fill(0);
-    rect(x+2, y-3, 8, 21); // Roda 1
-    rect(x+25, y-3, 8, 21); // Roda 2
+    rect(x+2, y-3, 8, 21); 
+    rect(x+25, y-3, 8, 21); 
+    
     fill(c);
-    rect(x, y, 35, 15, 3); // Corpo
+    rect(x, y, 35, 15, 3); 
+    
     fill(200);
-    rect(x+15, y, 12, 15, 3); // Janela
+    rect(x+15, y, 12, 15, 3);
   }
 
-
-  // ===================================
-  // MÉTODO MOVE COM LÓGICA DE REAPARECIMENTO APLICADA
-  // ===================================
-  void move () {
-    if (r == true) { // Move para a direita
-      x = x + speed;
-      if (x > width + CAR_WIDTH + 10) { // Saiu da tela (largura do carro + margem)
-        x = -CAR_WIDTH; // Volta para o lado esquerdo
-        y = y; // Mantém-se na mesma raia
-      }
-    } else { // Move para a esquerda
-      x = x - speed;
-      if (x < -CAR_WIDTH - 10) { // Saiu da tela
-        x = width; // Volta para o lado direito
-        y = y; // Mantém-se na mesma raia
-      }
+  void move() {
+    if (r) { 
+      x += speed;
+      if (x > width + 60)
+        x = -120;
+    } else { 
+      x -= speed;
+      if (x < -60)
+        x = width + 120;
     }
   }
 }
