@@ -1,29 +1,48 @@
 class Player {
-  // ... (x, w, h, lives, playerColor remain the same) ...
-  PImage p2;
-  int x, w, h, lives;
-  final int y = 500; // Player is FIXED near the bottom of the screen (e.g., y=500)
-  // ... (rest of variables) ...
+  float x, y;
+  int laneIndex = 0;
+  float size = 28;
+  int lives = 10;
 
   Player() {
-    x = width / 2;
-    // y is FIXED at 500 (or height - laneHeight)
-    w = 20;
-    h = 20;
-    lives = 3;
-    p2 = loadImage("FwogOwO.png");
+  laneIndex = 0;
+  x = width / 2;
+  if (gameLanes.size() > 0) {
+    y = gameLanes.get(0).y;
+  } else {
+    y = height - laneHeight / 2;
   }
+}
 
-  void moveLane(int direction) {
-    if (direction == -1) {
-      scrollOffset = SCROLL_STEP; // Initiates the scroll
-    }
-  }
-
-  // NOTE: The intersect function must be moved to the Lane class!
-  // Collision will be: Lane.checkCollision(Player p1);
   void display() {
-    image(p2,x,y);
-    p2.resize(50,50);
+    fill(255, 255, 0);
+    ellipse(x, y, size, size);
+  }
+
+  void moveLane(int dir) {
+    laneIndex += dir;
+    laneIndex = constrain(laneIndex, 0, gameLanes.size() - 1);
+    y = gameLanes.get(laneIndex).y;
+  }
+
+  void moveLeft() {
+    x -= 25;
+    if (x < 0) x = 0;
+  }
+
+  void moveRight() {
+    x += 25;
+    if (x > width) x = width;
+  }
+
+  void loseLife() {
+    lives--;
+    respawn();
+  }
+
+  void respawn() {
+    laneIndex = 0;
+    x = width / 2;
+    y = gameLanes.get(0).y;
   }
 }
