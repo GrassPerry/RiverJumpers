@@ -1,75 +1,76 @@
 class Lane {
   float y;
   String type;
-  ArrayList<Object> obstacles = new ArrayList<Object>(); // Can hold Enemy or Trunk objects
-  boolean moveRight;
 
-  Lane(float startY, String laneType) {
-    this.y = startY;
-    this.type = laneType;
+  ArrayList<Car> cars = new ArrayList<Car>();
+  ArrayList<Trunk> trunks = new ArrayList<Trunk>();
 
-    // Determine the direction for logs/cars in this lane
-    moveRight = (int(random(2)) == 0);
+  Lane(float y, String type) {
+    this.y = y;
+    this.type = type;
 
-    if (type.equals("ROAD")) {
-      // Generate cars (Enemies)
-      generateObstacles(5, 50, 150, true); // 5 cars, speed 5 to 15, size 50 to 150
-    } else if (type.equals("RIVER")) {
-      // Generate logs (Trunks)
-      generateObstacles(7, FIXED_SPEED, TRUNK_WIDTH, false); // 7 logs, fixed speed, fixed width
+    if (type.equals("ROAD")) generateCars();
+    if (type.equals("RIVER")) generateTrunks();
+  }
+
+  void generateCars() {
+    boolean dir = random(1) > 0.5;
+
+    for (int i = 0; i < 3; i++) {
+      float startX = -200 * i;
+      cars.add(new Car(startX, y, dir));
     }
   }
 
-  void generateObstacles(int count, float minSpeed, float maxSize, boolean isEnemy) {
-    if (isEnemy) {
-    } else {
+  void generateTrunks() {
+    boolean dir = random(1) > 0.5;
+    float speed = random(1.5, 2.5);
 
-      float totalSpacing = MINIMUM_ITEM_SIZE * count;
+    for (int i = 0; i < 3; i++) {
+      float startX = -size_log * i * 2;
+      trunks.add(new Trunk(startX, y, dir, speed));
+    }
+  }
 
-      // Determine the starting position based on movement direction
-      float currentX;
-      if (moveRight) {
-        // Start logs off-screen left
-        currentX = -totalSpacing;
-      } else {
-        // Start logs off-screen right
-        currentX = width + totalSpacing;
-      }
-
-      // Generate the specified number of logs
-      for (int i = 0; i < count; i++) {
-        // Create a new Trunk object at the calculated X position and the lane's Y position
-        Trunk log = new Trunk(currentX, this.y, moveRight, FIXED_SPEED);
-        obstacles.add(log);
-
-        // Update the next starting X position for the next log
-        if (moveRight) {
-          currentX += MINIMUM_ITEM_SIZE;
-        } else {
-          currentX -= MINIMUM_ITEM_SIZE;
-        }
+  void update() {
+    if (type.equals("ROAD")) {
+      for (Car c : cars) {
+        c.move();
+        if (abs(p1.y - y) < 10 && abs(p1.x - c.x) < 25)
+          p1.loseLife();
       }
     }
+
+    if (type.equals("RIVER")) {
+      boolean onLog = false;
+
+      for (Trunk t : trunks) {
+        boolean isOnTrunk = (p1.x + p1.size/2 > t.x) && (p1.x - p1.size/2 < t.x + width_log);
+        if (abs(p1.y - y) < 10 && isOnTrunk) {
+          p1.x += (t.moveRight ? t.speed : -t.speed);
+          onLog = true;
+        }
+        t.move();
+      }
+
+      if (abs(p1.y - y) < 10 && !onLog)
+        p1.loseLife();
+    }
+    p1.x = constrain(p1.x, 0, width);
   }
 
   void display() {
-    if (type.equals("ROAD")) fill(100);
-    else if (type.equals("RIVER")) fill(0, 0, 150);
-    else fill(0, 150, 0); // Grass/Start
+    if (type.equals("START")) fill(0, 200, 0);
+    else if (type.equals("SAFE")) fill(80, 200, 80);
+    else if (type.equals("ROAD")) fill(50);
+    else if (type.equals("RIVER")) fill(40, 80, 180);
 
-    rectMode(CENTER);
-    rect(width / 2, y, width, laneHeight);
-  }
-  void updateAndDisplayObstacles(float scrollAmt) {
-    // Apply scrolling to all obstacles first
-    for (Object obstacle : obstacles) {
-      if (obstacle instanceof Trunk) {
-        Trunk log = (Trunk) obstacle;
-        log.y += scrollAmt; // Apply the scroll to the log's Y
-        log.move(); // Move the log's X
-        log.display();
-      }
-      // Add Car logic here when implemented
-    }
+    rect(0, y - laneHeight/2, width, laneHeight);
+
+    if (type.equals("ROAD"))
+      for (Car c : cars) c.display();
+
+    if (type.equals("RIVER"))
+      for (Trunk t : trunks) t.display();
   }
 }
