@@ -2,7 +2,7 @@ class Player {
   float x, y;
   int laneIndex = 0;
   float size = 28;
-  int lives = 10;
+  int lives = 3;
 
   Player() {
   laneIndex = 0;
