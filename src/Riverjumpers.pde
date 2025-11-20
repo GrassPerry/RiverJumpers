@@ -115,8 +115,8 @@ void drawHeart(float x, float y) {
 void keyPressed() {
   if (!play) return;
 
-  if (keyCode == UP) p1.moveLane(-1);
-  if (keyCode == DOWN) p1.moveLane(1);
+  if (keyCode == UP) p1.moveLane(1);
+  if (keyCode == DOWN) p1.moveLane(-1);
   if (keyCode == LEFT) p1.moveLeft();
   if (keyCode == RIGHT) p1.moveRight();
 }
