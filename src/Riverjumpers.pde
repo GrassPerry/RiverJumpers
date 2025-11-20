@@ -2,21 +2,17 @@
 // RIVER JUMPERS — MAIN FILE
 // =====================================
 
-
 Player p1;
 ArrayList<Lane> gameLanes = new ArrayList<Lane>();
-
 
 boolean play = false;
 int laneHeight = 50;
 int lanesToGenerate = 12;
 
-
 final float width_log = 55;
 final float MINIMUM_SPACE = 50;
-final float size_log = widtah_log + MINIMUM_SPACE;
-final float speed_car = 3;  
-
+final float size_log = width_log + MINIMUM_SPACE;
+final float speed_car = 3;
 
 void setup() {
   size(640, 600);
@@ -36,11 +32,6 @@ void setup() {
   play = false;
 }
 
-    
- 
-
-
-
 void draw() {
   background(100, 150, 255);
 
@@ -59,8 +50,23 @@ void draw() {
   for (Lane lane : gameLanes) lane.display();
 
   p1.display();
+
+  for (Lane lane : gameLanes) lane.display();
+  
+  for (int i = 0; i < p1.lives; i++) {
+  drawHeart(20 + i*30, 20);
+}
+  p1.display();
 }
 
+void drawHeart(float x, float y) {
+  fill(255, 0, 0);
+  beginShape();
+  vertex(x, y+5);
+  bezierVertex(x-10, y-10, x-25, y+10, x, y+20);
+  bezierVertex(x+25, y+10, x+10, y-10, x, y+5);
+  endShape(CLOSE);
+}
 
 void keyPressed() {
   if (!play) return;
@@ -71,11 +77,9 @@ void keyPressed() {
   if (keyCode == RIGHT) p1.moveRight();
 }
 
-
 void mousePressed() {
   play = true;
 }
-
 
 void startScreen() {
   background(0);
@@ -84,7 +88,6 @@ void startScreen() {
   textSize(40);
   text("Click to start!", width/2, height/2);
 }
-
 
 void gameOver() {
   background(0);
