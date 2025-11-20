@@ -2,17 +2,21 @@
 // RIVER JUMPERS — MAIN FILE
 // =====================================
 
+
 Player p1;
 ArrayList<Lane> gameLanes = new ArrayList<Lane>();
+
 
 boolean play = false;
 int laneHeight = 50;
 int lanesToGenerate = 12;
 
+
 final float width_log = 55;
 final float MINIMUM_SPACE = 50;
 final float size_log = width_log + MINIMUM_SPACE;
 final float speed_car = 3;
+
 
 void setup() {
   size(640, 600);
@@ -31,6 +35,45 @@ void setup() {
 
   play = false;
 }
+
+void generateNewMap() {
+  // animação de rolagem para cima
+  for (int offset = 0; offset < height; offset += 20) {
+    background(100, 150, 255);
+
+    // mover lanes para cima
+    for (Lane lane : gameLanes) {
+      lane.y -= 20;
+      lane.display();
+    }
+
+    p1.y -= 20;
+    p1.display();
+
+    delay(10);
+  }
+
+  // Limpa e cria novas lanes
+  gameLanes.clear();
+
+  for (int i = 0; i < lanesToGenerate; i++) {
+    float yPos = height - (i * laneHeight) - (laneHeight / 2);
+
+    if (i == 0) {
+      gameLanes.add(new Lane(yPos, "START"));
+    } else {
+      String[] types = {"SAFE", "ROAD", "RIVER", "DOUBLE_ROAD"};
+      String type = types[int(random(3))]; // aleatório
+      gameLanes.add(new Lane(yPos, type));
+    }
+  }
+
+  // reposiciona jogador no início
+  p1.laneIndex = 0;
+  p1.x = width / 2;
+  p1.y = gameLanes.get(0).y;
+}
+
 
 void draw() {
   background(100, 150, 255);
@@ -68,6 +111,7 @@ void drawHeart(float x, float y) {
   endShape(CLOSE);
 }
 
+
 void keyPressed() {
   if (!play) return;
 
@@ -77,9 +121,11 @@ void keyPressed() {
   if (keyCode == RIGHT) p1.moveRight();
 }
 
+
 void mousePressed() {
   play = true;
 }
+
 
 void startScreen() {
   background(0);
@@ -88,6 +134,7 @@ void startScreen() {
   textSize(40);
   text("Click to start!", width/2, height/2);
 }
+
 
 void gameOver() {
   background(0);
