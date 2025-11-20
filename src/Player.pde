@@ -5,14 +5,14 @@ class Player {
   int lives = 3;
 
   Player() {
-  laneIndex = 0;
-  x = width / 2;
-  if (gameLanes.size() > 0) {
-    y = gameLanes.get(0).y;
-  } else {
-    y = height - laneHeight / 2;
+    laneIndex = 0;
+    x = width / 2;
+    if (gameLanes.size() > 0) {
+      y = gameLanes.get(0).y;
+    } else {
+      y = height - laneHeight / 2;
+    }
   }
-}
 
   void display() {
     fill(255, 255, 0);
@@ -21,7 +21,16 @@ class Player {
 
   void moveLane(int dir) {
     laneIndex += dir;
-    laneIndex = constrain(laneIndex, 0, gameLanes.size() - 1);
+
+    // chegou no topo (passou da última lane)
+    if (laneIndex >= gameLanes.size()) {
+      generateNewMap();
+      return;
+    }
+
+    // não deixar passar abaixo da primeira lane
+    if (laneIndex < 0) laneIndex = 0;
+
     y = gameLanes.get(laneIndex).y;
   }
 
