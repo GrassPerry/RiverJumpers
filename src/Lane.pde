@@ -66,6 +66,18 @@ class Lane {
     else if (type.equals("RIVER")) fill(40, 80, 180);
 
     rect(0, y - laneHeight/2, width, laneHeight);
+    if (type.equals("ROAD") || type.equals("DOUBLE_ROAD")) {
+      stroke(255, 255, 0);
+      strokeWeight(4);
+
+      // Linha tracejada
+      for (int i = 0; i < width; i += 40) {
+        line(i, y, i + 20, y);
+      }
+
+      stroke(0);
+      strokeWeight(1.5);
+    }
 
     if (type.equals("ROAD"))
       for (Car c : cars) c.display();
