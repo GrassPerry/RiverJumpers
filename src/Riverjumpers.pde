@@ -21,7 +21,6 @@ final float speed_car = 3;
 void setup() {
   size(640, 600);
   p1 = new Player();
-
   for (int i = 0; i < lanesToGenerate; i++) {
     float yPos = height - (i * laneHeight) - (laneHeight / 2);
     if (i == 0) {
@@ -115,8 +114,8 @@ void drawHeart(float x, float y) {
 void keyPressed() {
   if (!play) return;
 
-  if (keyCode == UP) p1.moveLane(1);
   if (keyCode == DOWN) p1.moveLane(-1);
+  if (keyCode == UP) p1.moveLane(1);
   if (keyCode == LEFT) p1.moveLeft();
   if (keyCode == RIGHT) p1.moveRight();
 }
