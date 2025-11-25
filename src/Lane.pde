@@ -45,12 +45,15 @@ class Lane {
       boolean onLog = false;
 
       for (Trunk t : trunks) {
+        t.move();
+      }
+      for (Trunk t : trunks) {
         boolean isOnTrunk = (p1.x + p1.size/2 > t.x) && (p1.x - p1.size/2 < t.x + width_log);
         if (abs(p1.y - y) < 10 && isOnTrunk) {
           p1.x += (t.moveRight ? t.speed : -t.speed);
           onLog = true;
+          break;
         }
-        t.move();
       }
 
       if (abs(p1.y - y) < 10 && !onLog)
