@@ -7,10 +7,10 @@ class Player {
   PImage currentFrog;
 
   Player() {
-    frog = loadImage("FwogOwO.png");
+    frog = loadImage("FwogOwOU.png");
     frogD = loadImage("FwogOwOD.png");
-    frogL = loadImage("FwogOwOL.png");
-    frogR = loadImage("FwogOwOR.png");
+    frogL = loadImage("FwogOwOML.png");
+    frogR = loadImage("FwogOwOMR.png");
     currentFrog = frog;
     laneIndex = 0;
     x = width / 2;
@@ -24,7 +24,7 @@ class Player {
   void display() {
     imageMode(CENTER);
     image(currentFrog,x,y);
-    currentFrog.resize(45,45);
+    currentFrog.resize(65,65);
   }
 
   void moveLane(int dir) {
