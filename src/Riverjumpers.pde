@@ -94,10 +94,10 @@ void draw() {
   p1.display();
 
   for (Lane lane : gameLanes) lane.display();
-  
+
   for (int i = 0; i < p1.lives; i++) {
-  drawHeart(20 + i*30, 20);
-}
+    drawHeart(20 + i*30, 20);
+  }
   p1.display();
 }
 
@@ -118,6 +118,10 @@ void keyPressed() {
   if (keyCode == UP) p1.moveLane(1);
   if (keyCode == LEFT) p1.moveLeft();
   if (keyCode == RIGHT) p1.moveRight();
+
+  if (p1.lives <= 0 && (key == 'r' || key == 'R')) {
+    restartGame();
+  }
 }
 
 
@@ -142,7 +146,20 @@ void gameOver() {
   textSize(40);
   text("GAME OVER", width/2, height/2);
   textSize(20);
-  text("Click to restart", width/2, height/2 + 40);
-
-  noLoop();
+  text("Press R do restart", width/2, height/2 + 40);
+}
+void restartGame() {
+  p1.lives = 3;
+  gameLanes.clear();
+  for (int i = 0; i < lanesToGenerate; i++) {
+    float yPos = height - (i * laneHeight) - (laneHeight / 2);
+    if (i == 0) {
+      gameLanes.add(new Lane(yPos, "START"));
+    } else {
+      String type = (i % 3 == 0) ? "SAFE" : ((i % 2 == 0) ? "ROAD" : "RIVER");
+      gameLanes.add(new Lane(yPos, type));
+    }
+  }
+  p1 = new Player();
+  play = true;
 }
