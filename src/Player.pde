@@ -3,10 +3,15 @@ class Player {
   int laneIndex = 0;
   float size = 28;
   int lives = 3;
-  PImage frog;
+  PImage frog, frogD, frogL, frogR;
+  PImage currentFrog;
 
   Player() {
     frog = loadImage("FwogOwO.png");
+    frogD = loadImage("FwogOwOD.png");
+    frogL = loadImage("FwogOwOL.png");
+    frogR = loadImage("FwogOwOR.png");
+    currentFrog = frog;
     laneIndex = 0;
     x = width / 2;
     if (gameLanes.size() > 0) {
@@ -18,8 +23,8 @@ class Player {
 
   void display() {
     imageMode(CENTER);
-    image(frog,x,y);
-    frog.resize(45,45);
+    image(currentFrog,x,y);
+    currentFrog.resize(45,45);
   }
 
   void moveLane(int dir) {
