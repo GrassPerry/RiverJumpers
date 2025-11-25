@@ -6,6 +6,7 @@
 Player p1;
 ArrayList<Lane> gameLanes = new ArrayList<Lane>();
 
+PImage GS, GO;
 
 boolean play = false;
 int laneHeight = 50;
@@ -20,6 +21,8 @@ final float speed_car = 3;
 
 void setup() {
   size(640, 600);
+  GS = loadImage("GameStart.png");
+  GO = loadImage("GameOver.png");
   p1 = new Player();
   for (int i = 0; i < lanesToGenerate; i++) {
     float yPos = height - (i * laneHeight) - (laneHeight / 2);
@@ -114,13 +117,21 @@ void drawHeart(float x, float y) {
 void keyPressed() {
   if (!play) return;
 
-  if (keyCode == DOWN) p1.moveLane(-1);
-  if (keyCode == UP) p1.moveLane(1);
-  if (keyCode == LEFT) p1.moveLeft();
-  if (keyCode == RIGHT) p1.moveRight();
-
-  if (p1.lives <= 0 && (key == 'r' || key == 'R')) {
-    restartGame();
+  if (keyCode == DOWN) {
+    p1.moveLane(-1);
+    p1.currentFrog = p1.frogD;
+  }
+  if (keyCode == UP) {
+    p1.moveLane(1);
+    p1.currentFrog = p1.frog;
+  }
+  if (keyCode == LEFT) {
+    p1.moveLeft();
+    p1.currentFrog = p1.frogL;
+  }
+  if (keyCode == RIGHT) {
+    p1.moveRight();
+    p1.currentFrog = p1.frogR;
   }
 }
 
@@ -131,35 +142,19 @@ void mousePressed() {
 
 
 void startScreen() {
-  background(0);
+  background(GS);
   fill(255);
   textAlign(CENTER);
   textSize(40);
-  text("Click to start!", width/2, height/2);
 }
 
 
 void gameOver() {
-  background(0);
+  background(GO);
   fill(255);
   textAlign(CENTER);
   textSize(40);
-  text("GAME OVER", width/2, height/2);
-  textSize(20);
-  text("Press R do restart", width/2, height/2 + 40);
-}
-void restartGame() {
-  p1.lives = 3;
-  gameLanes.clear();
-  for (int i = 0; i < lanesToGenerate; i++) {
-    float yPos = height - (i * laneHeight) - (laneHeight / 2);
-    if (i == 0) {
-      gameLanes.add(new Lane(yPos, "START"));
-    } else {
-      String type = (i % 3 == 0) ? "SAFE" : ((i % 2 == 0) ? "ROAD" : "RIVER");
-      gameLanes.add(new Lane(yPos, type));
-    }
-  }
-  p1 = new Player();
-  play = true;
+
+
+  noLoop();
 }
