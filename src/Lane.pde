@@ -17,8 +17,8 @@ class Lane {
     boolean dir = random(1) > 0.5;
 
     for (int i = 0; i < 3; i++) {
-      float startY = y - 8;
-      cars.add(new Car(startX, startY, dir));
+      float startX = -200 * i;
+      cars.add(new Car(startX, y, dir));
     }
   }
 
