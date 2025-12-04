@@ -140,7 +140,7 @@ void mousePressed() {
   play = true;
 }
 
-
+//Arthur Leite
 void startScreen() {
   background(GS);
   fill(255);
@@ -148,7 +148,7 @@ void startScreen() {
   textSize(40);
 }
 
-
+//Grace Perry
 void gameOver() {
   background(GO);
   fill(255);
