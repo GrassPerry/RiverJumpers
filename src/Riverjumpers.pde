@@ -1,7 +1,19 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 // =====================================
 // RIVER JUMPERS — MAIN FILE
 // =====================================
 
+import ddf.minim.*;
+
+
+AudioPlayer music;
+AudioPlayer gameOverMusic;
 
 Player p1;
 ArrayList<Lane> gameLanes = new ArrayList<Lane>();
@@ -18,9 +30,19 @@ final float MINIMUM_SPACE = 50;
 final float size_log = width_log + MINIMUM_SPACE;
 final float speed_car = 3;
 
+Minim minim;
 
 void setup() {
   size(640, 600);
+
+  minim = new Minim(this);
+
+  music = minim.loadFile("theme.wav");
+  gameOverMusic = minim.loadFile("death.wav");
+  
+  music.loop();
+
+
   GS = loadImage("GameStart.png");
   GO = loadImage("GameOver.png");
   p1 = new Player();
@@ -150,6 +172,10 @@ void startScreen() {
 
 //Grace Perry
 void gameOver() {
+  
+  if (music.isPlaying()) music.pause();
+  if (!gameOverMusic.isPlaying()) gameOverMusic.play();
+
   background(GO);
   fill(255);
   textAlign(CENTER);
@@ -157,4 +183,10 @@ void gameOver() {
 
 
   noLoop();
+}
+
+void restartGame() {
+  gameOverMusic.pause();
+  gameOverMusic.rewind();
+  music.loop();
 }
