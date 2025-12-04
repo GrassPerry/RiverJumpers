@@ -1,4 +1,4 @@
-class Trunk { 
+class Trunk {
 
   PImage trunkIm;
 
@@ -31,7 +31,6 @@ class Trunk {
     trunkIm = loadImage("trunk.png");
 
     this.speed = velocity;
-
   }
 
 
@@ -39,7 +38,6 @@ class Trunk {
   void display() {
 
     image(trunkIm, x, y+6, width_log, 70);
-
   }
 
 
@@ -53,7 +51,6 @@ class Trunk {
       if (x > width + width_log)
 
         x = -(size_log * 3);
-
     } else {
 
       x -= speed;
@@ -61,9 +58,6 @@ class Trunk {
       if (x < -(width_log * 2))
 
         x = width + (size_log * 3);
-
     }
-
   }
-
 }
