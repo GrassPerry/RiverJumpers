@@ -74,10 +74,9 @@ void generateNewMap() {
     p1.y -= 20;
     p1.display();
 
-    delay(10);
+    delay(0);
   }
 
-  // Limpa e cria novas lanes
   gameLanes.clear();
 
   for (int i = 0; i < lanesToGenerate; i++) {
@@ -92,7 +91,6 @@ void generateNewMap() {
     }
   }
 
-  // reposiciona jogador no início
   p1.laneIndex = 0;
   p1.x = width / 2;
   p1.y = gameLanes.get(0).y;
