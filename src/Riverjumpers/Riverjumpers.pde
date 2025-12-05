@@ -11,7 +11,7 @@ import ddf.minim.ugens.*;
 
 import ddf.minim.*;
 
-
+boolean isGameOver = false;
 AudioPlayer music;
 AudioPlayer gameOverMusic;
 
@@ -39,7 +39,7 @@ void setup() {
 
   music = minim.loadFile("theme.wav");
   gameOverMusic = minim.loadFile("death.wav");
-  
+
   music.loop();
 
 
@@ -61,11 +61,9 @@ void setup() {
 }
 
 void generateNewMap() {
-  // animação de rolagem para cima
   for (int offset = 0; offset < height; offset += 20) {
     background(100, 150, 255);
 
-    // mover lanes para cima
     for (Lane lane : gameLanes) {
       lane.y -= 20;
       lane.display();
@@ -104,20 +102,14 @@ void draw() {
     startScreen();
     return;
   }
-
   if (p1.lives <= 0) {
     gameOver();
     return;
   }
-
   for (Lane lane : gameLanes) lane.update();
-
   for (Lane lane : gameLanes) lane.display();
-
   p1.display();
-
   for (Lane lane : gameLanes) lane.display();
-
   for (int i = 0; i < p1.lives; i++) {
     drawHeart(20 + i*30, 20);
   }
@@ -133,9 +125,13 @@ void drawHeart(float x, float y) {
   endShape(CLOSE);
 }
 
-
 void keyPressed() {
-  if (!play) return;
+  
+  if (isGameOver) {
+      restartGame();
+      isGameOver = false;
+
+  }
 
   if (keyCode == DOWN) {
     p1.moveLane(-1);
@@ -152,8 +148,8 @@ void keyPressed() {
   if (keyCode == RIGHT) {
     p1.moveRight();
     p1.currentFrog = p1.frogR;
+    }
   }
-}
 
 
 void mousePressed() {
@@ -170,21 +166,22 @@ void startScreen() {
 
 //Grace Perry
 void gameOver() {
-  
   if (music.isPlaying()) music.pause();
   if (!gameOverMusic.isPlaying()) gameOverMusic.play();
-
+    isGameOver = true;
+    
   background(GO);
   fill(255);
   textAlign(CENTER);
   textSize(40);
 
-
   noLoop();
 }
 
 void restartGame() {
+  p1.lives = 3;
   gameOverMusic.pause();
   gameOverMusic.rewind();
   music.loop();
+  loop();
 }
