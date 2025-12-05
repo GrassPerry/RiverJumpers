@@ -11,7 +11,7 @@ import ddf.minim.ugens.*;
 
 import ddf.minim.*;
 
-boolean isGameOver = false;
+boolean isGameOver =false;
 AudioPlayer music;
 AudioPlayer gameOverMusic;
 
@@ -27,7 +27,6 @@ int lanesToGenerate = 12;
 int score = 0;
 long startTime;
 int survivalSeconds = 0;
-
 
 final float width_log = 55;
 final float MINIMUM_SPACE = 50;
@@ -69,9 +68,11 @@ void setup() {
 }
 
 void generateNewMap() {
+  // animação de rolagem para cima
   for (int offset = 0; offset < height; offset += 20) {
     background(100, 150, 255);
 
+    // mover lanes para cima
     for (Lane lane : gameLanes) {
       lane.y -= 20;
       lane.display();
@@ -80,9 +81,10 @@ void generateNewMap() {
     p1.y -= 20;
     p1.display();
 
-    delay(0);
+    delay(10);
   }
 
+  // Limpa e cria novas lanes
   gameLanes.clear();
 
   for (int i = 0; i < lanesToGenerate; i++) {
@@ -97,6 +99,7 @@ void generateNewMap() {
     }
   }
 
+  // reposiciona jogador no início
   p1.laneIndex = 0;
   p1.x = width / 2;
   p1.y = gameLanes.get(0).y;
@@ -106,23 +109,30 @@ void generateNewMap() {
 void draw() {
   background(100, 150, 255);
 
-long currentTime = millis();
+  long currentTime = millis();
   long elapsedTime = currentTime - startTime;
   survivalSeconds = (int)(elapsedTime / 1000);
   score = survivalSeconds * 5;
+
 
   if (!play) {
     startScreen();
     return;
   }
+
   if (p1.lives <= 0) {
     gameOver();
     return;
   }
+
   for (Lane lane : gameLanes) lane.update();
+
   for (Lane lane : gameLanes) lane.display();
+
   p1.display();
+
   for (Lane lane : gameLanes) lane.display();
+
   for (int i = 0; i < p1.lives; i++) {
     drawHeart(20 + i*30, 20);
   }
@@ -138,13 +148,14 @@ void drawHeart(float x, float y) {
   endShape(CLOSE);
 }
 
-void keyPressed() {
-  
-  if (isGameOver) {
-      restartGame();
-      isGameOver = false;
 
+void keyPressed() {
+  if(isGameOver) {
+    restartGame();
+    isGameOver=false;
   }
+  
+  if (!play) return;
 
   if (keyCode == DOWN) {
     p1.moveLane(-1);
@@ -161,8 +172,8 @@ void keyPressed() {
   if (keyCode == RIGHT) {
     p1.moveRight();
     p1.currentFrog = p1.frogR;
-    }
   }
+}
 
 
 void mousePressed() {
@@ -179,14 +190,18 @@ void startScreen() {
 
 //Grace Perry
 void gameOver() {
+
   if (music.isPlaying()) music.pause();
   if (!gameOverMusic.isPlaying()) gameOverMusic.play();
-    isGameOver = true;
-    
+
   background(GO);
-  fill(29,118,16);
+  fill(0);
+  text("Press Space to Restart", width/2, 550);
+  fill(18,118,30);
   text("Survival Time: " + survivalSeconds + " seconds", width / 2, 150 );
   text("Score: " + score, width / 2, 200);
+  isGameOver=true;
+
 
   noLoop();
 }
