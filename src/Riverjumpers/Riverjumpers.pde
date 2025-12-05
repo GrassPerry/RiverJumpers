@@ -192,9 +192,15 @@ void gameOver() {
 }
 
 void restartGame() {
+  isGameOver = false;
+  play = false;
   p1.lives = 3;
   gameOverMusic.pause();
   gameOverMusic.rewind();
   music.loop();
+  generateNewMap();
+  p1.x = width / 2;
+  p1.laneIndex = 0;
+  p1.y = gameLanes.get(0).y;
   loop();
 }
