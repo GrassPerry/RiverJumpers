@@ -24,6 +24,10 @@ boolean play = false;
 int laneHeight = 50;
 int lanesToGenerate = 12;
 
+int score = 0;
+long startTime;
+int survivalSeconds = 0;
+
 
 final float width_log = 55;
 final float MINIMUM_SPACE = 50;
@@ -34,6 +38,10 @@ Minim minim;
 
 void setup() {
   size(640, 600);
+
+  startTime = millis();
+  textAlign(CENTER, CENTER);
+  textSize(32);
 
   minim = new Minim(this);
 
@@ -97,6 +105,11 @@ void generateNewMap() {
 
 void draw() {
   background(100, 150, 255);
+
+long currentTime = millis();
+  long elapsedTime = currentTime - startTime;
+  survivalSeconds = (int)(elapsedTime / 1000);
+  score = survivalSeconds * 5;
 
   if (!play) {
     startScreen();
@@ -171,9 +184,9 @@ void gameOver() {
     isGameOver = true;
     
   background(GO);
-  fill(255);
-  textAlign(CENTER);
-  textSize(40);
+  fill(29,118,16);
+  text("Survival Time: " + survivalSeconds + " seconds", width / 2, 150 );
+  text("Score: " + score, width / 2, 200);
 
   noLoop();
 }
