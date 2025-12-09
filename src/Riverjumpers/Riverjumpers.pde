@@ -81,7 +81,7 @@ void generateNewMap() {
     p1.y -= 20;
     p1.display();
 
-    delay(10);
+    delay(0);
   }
 
   // Limpa e cria novas lanes
